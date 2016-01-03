@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+/** @var \Silex\Application $app */
+$app = require_once __DIR__.'/bootstrap.php';
+$app->register(new \KEIII\ReactSilex\ReactServiceProvider());
+/** @var \Symfony\Component\Console\Application $console */
+$console = $app['react.console'];
+$console->run();
