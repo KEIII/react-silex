@@ -19,7 +19,7 @@ class ReactRequestBridge
             $request->getMethod(),
             $request->getQuery(),
             $this->extractCookies($request),
-            $request->getFiles(),
+            $this->extractFiles($request),
             $this->extractServer($request),
             $request->getBody()
         );
@@ -80,5 +80,40 @@ class ReactRequestBridge
         }
 
         return $server;
+    }
+
+    /**
+     * Extract files ($_FILES).
+     * @param ReactRequest $request
+     * @return array
+     */
+    private function extractFiles(ReactRequest $request)
+    {
+        return array_map(function (array $file) {
+            return $this->uploadReactFile($file);
+        }, $request->getFiles());
+    }
+
+    /**
+     * Upload file to emulate the same functionality as a real php server.
+     * @param array $file
+     * @return array
+     */
+    private function uploadReactFile(array $file)
+    {
+        $stream = $file['stream'];
+        $tmp_path = tempnam(sys_get_temp_dir(), 'php');
+        $file_content = stream_get_contents($stream);
+        fclose($stream);
+        $error = file_put_contents($tmp_path, $file_content) === false ? UPLOAD_ERR_NO_FILE : UPLOAD_ERR_OK;
+        $size = mb_strlen($file_content, '8bit');
+
+        return [
+            'name' => $file['name'],
+            'type' => $file['type'],
+            'tmp_name' => $tmp_path,
+            'error' => $error,
+            'size' => $size,
+        ];
     }
 }

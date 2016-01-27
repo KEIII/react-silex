@@ -23,11 +23,5 @@
             "KEIII\\ReactSilex\\": "src/"
         }
     },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/KEIII/http.git"
-        }
-    ]
+    "minimum-stability": "dev"
 }
