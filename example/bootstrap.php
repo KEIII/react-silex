@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new Application();
 
@@ -16,6 +16,15 @@ $app->get('/hello/', function (Request $request) use ($app) {
     $response->headers->setCookie(new Cookie('silex_time', time()));
 
     return $response;
+});
+
+$app->get('/stream/', function () {
+    return new \Symfony\Component\HttpFoundation\StreamedResponse(function () {
+        for ($i = 5; $i !== 0; --$i) {
+            echo 'countdown... '.$i.'<br>';
+            sleep(1);
+        }
+    });
 });
 
 $app->get('/favicon.ico', function () use ($app) {

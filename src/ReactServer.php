@@ -1,11 +1,13 @@
-<?php namespace KEIII\ReactSilex;
+<?php
+
+namespace KEIII\ReactSilex;
 
 use React\EventLoop\LoopInterface as ReactLoopInterface;
-use Silex\Application;
 use React\Http\Request;
 use React\Http\Response;
 use React\Http\ServerInterface as ReactHttpServerInterface;
 use React\Socket\ServerInterface as ReactSocketServerInterface;
+use Silex\Application;
 
 /**
  * React server.
@@ -13,27 +15,27 @@ use React\Socket\ServerInterface as ReactSocketServerInterface;
 class ReactServer
 {
     /**
-     * @var ReactHttpServerInterface $http
+     * @var ReactHttpServerInterface
      */
     private $http;
 
     /**
-     * @var ReactSocketServerInterface $socket
+     * @var ReactSocketServerInterface
      */
     private $socket;
 
     /**
-     * @var ReactLoopInterface $loop
+     * @var ReactLoopInterface
      */
     private $loop;
 
     /**
-     * @var ReactRequestBridge
+     * @var RequestBridge
      */
     private $request_bridge;
 
     /**
-     * @var ReactResponseBridge
+     * @var ResponseBridge
      */
     private $response_bridge;
 
@@ -44,9 +46,11 @@ class ReactServer
 
     /**
      * Constructor.
+     *
      * @param Application $app
      */
-    public function __construct(Application $app) {
+    public function __construct(Application $app)
+    {
         $this->http = $app['react.http'];
         $this->socket = $app['react.socket'];
         $this->loop = $app['react.loop'];
@@ -57,7 +61,8 @@ class ReactServer
 
     /**
      * Run react.
-     * @param int $port
+     *
+     * @param int    $port
      * @param string $host
      */
     public function run($port, $host)

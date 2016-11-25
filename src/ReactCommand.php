@@ -1,4 +1,6 @@
-<?php namespace KEIII\ReactSilex;
+<?php
+
+namespace KEIII\ReactSilex;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -6,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  */
 class ReactCommand extends Command
 {
@@ -20,6 +22,7 @@ class ReactCommand extends Command
 
     /**
      * Constructor.
+     *
      * @param ReactServer $server
      */
     public function __construct(ReactServer $server)
@@ -30,7 +33,7 @@ class ReactCommand extends Command
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -55,7 +58,7 @@ class ReactCommand extends Command
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

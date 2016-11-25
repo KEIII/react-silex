@@ -3,7 +3,7 @@
 
 /** @var \Silex\Application $app */
 $app = require_once __DIR__.'/bootstrap.php';
-$app->register(new \KEIII\ReactSilex\ReactServiceProvider());
+$app->register(new \KEIII\ReactSilex\ReactSilexServiceProvider());
 /** @var \Symfony\Component\Console\Application $console */
 $console = $app['react.console'];
 $console->run();

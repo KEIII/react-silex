@@ -3,13 +3,23 @@ Integrates [Silex](https://github.com/silexphp/Silex/tree/master) with [React](h
 
 ## Run
 ```bash
-console server:run -p 8080
+$ cd example && ./console server:run -p 8080
 ```
 
-## Not working
-- StreamedResponse
-- BinaryFileResponse
-- ...
+## How to use
+```php
+<?php
+
+use KEIII\ReactSilex\ReactSilexServiceProvider;
+use Silex\Application;
+
+$app = new Application();
+$app->get('/', function () {
+    return 'Hello from reactor!';
+});
+$app->register(new ReactSilexServiceProvider());
+$app['react.console']->run();
+```
 
 ## Similar
 - [reactive-silex](https://github.com/kpacha/reactive-silex) Mixup silex and react (with a little help from espresso)

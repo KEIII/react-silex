@@ -1,15 +1,17 @@
-<?php namespace KEIII\ReactSilex;
+<?php
+
+namespace KEIII\ReactSilex;
 
 use React\Http\Request as ReactRequest;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-/**
- * React request bridge.
- */
-class ReactRequestBridge
+class RequestBridge
 {
     /**
+     * Convert react request into symfony request.
+     *
      * @param ReactRequest $request
+     *
      * @return SymfonyRequest
      */
     public function convertRequest(ReactRequest $request)
@@ -21,13 +23,15 @@ class ReactRequestBridge
             $this->extractCookies($request),
             $this->extractFiles($request),
             $this->extractServer($request),
-            $request->getBody()
+            '' // FIXME
         );
     }
 
     /**
      * Extract the request cookies ($_COOKIE).
+     *
      * @param ReactRequest $request
+     *
      * @return array
      */
     private function extractCookies(ReactRequest $request)
@@ -40,7 +44,9 @@ class ReactRequestBridge
 
     /**
      * Parse raw cookies string.
+     *
      * @param string $str
+     *
      * @return array
      */
     private function parseCookies($str)
@@ -60,7 +66,9 @@ class ReactRequestBridge
 
     /**
      * Extract the server parameters ($_SERVER).
+     *
      * @param ReactRequest $request
+     *
      * @return array
      */
     private function extractServer(ReactRequest $request)
@@ -84,19 +92,23 @@ class ReactRequestBridge
 
     /**
      * Extract files ($_FILES).
+     *
      * @param ReactRequest $request
+     *
      * @return array
      */
     private function extractFiles(ReactRequest $request)
     {
         return array_map(function (array $file) {
             return $this->uploadReactFile($file);
-        }, $request->getFiles());
+        }, []); // FIXME
     }
 
     /**
      * Upload file to emulate the same functionality as a real php server.
+     *
      * @param array $file
+     *
      * @return array
      */
     private function uploadReactFile(array $file)

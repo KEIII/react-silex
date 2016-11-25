@@ -1,26 +1,25 @@
-<?php namespace KEIII\ReactSilex;
+<?php
+
+namespace KEIII\ReactSilex;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use React\EventLoop\Factory as ReactEventLoopFactory;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
-use Symfony\Component\Console\Application as ConsoleApplication;
 use Silex\Application as SilexApplication;
+use Symfony\Component\Console\Application as ConsoleApplication;
 
 /**
- * React service.
+ * Integrates Silex with React.
  */
-class ReactServiceProvider implements ServiceProviderInterface
+class ReactSilexServiceProvider implements ServiceProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        /** @var SilexApplication $app */
-        $app = $container;
-
         $app['react.loop'] = function () {
             return ReactEventLoopFactory::create();
         };
@@ -34,11 +33,11 @@ class ReactServiceProvider implements ServiceProviderInterface
         };
 
         $app['react.request_bridge'] = function () {
-            return new ReactRequestBridge();
+            return new RequestBridge();
         };
 
         $app['react.response_bridge'] = function () {
-            return new ReactResponseBridge();
+            return new ResponseBridge();
         };
 
         $app['react.server'] = function (SilexApplication $app) {

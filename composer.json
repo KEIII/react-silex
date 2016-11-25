@@ -16,7 +16,8 @@
         "symfony/console": "^3.1"
     },
     "require-dev": {
-        "raveren/kint": "^1.0"
+        "raveren/kint": "^1.0",
+        "friendsofphp/php-cs-fixer": "^1.12"
     },
     "autoload": {
         "psr-4": {

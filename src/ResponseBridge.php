@@ -1,16 +1,18 @@
-<?php namespace KEIII\ReactSilex;
+<?php
+
+namespace KEIII\ReactSilex;
 
 use React\Http\Response as ReactResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * React response bridge.
- */
-class ReactResponseBridge
+class ResponseBridge
 {
     /**
      * Send symfony response.
-     * @param ReactResponse $response
+     *
+     * @param ReactResponse   $response
      * @param SymfonyResponse $sf_response
      */
     public function send(ReactResponse $response, SymfonyResponse $sf_response)
@@ -21,7 +23,8 @@ class ReactResponseBridge
 
     /**
      * Sends HTTP headers.
-     * @param ReactResponse $response
+     *
+     * @param ReactResponse   $response
      * @param SymfonyResponse $sf_response
      */
     private function sendHeaders(ReactResponse $response, SymfonyResponse $sf_response)
@@ -36,7 +39,7 @@ class ReactResponseBridge
         // cookies
         foreach ($sf_response->headers->getCookies() as $cookie) {
             if (!isset($headers['Set-Cookie'])) {
-                $headers['Set-Cookie'] = array();
+                $headers['Set-Cookie'] = [];
             }
 
             $headers['Set-Cookie'][] = (string)$cookie;
@@ -47,11 +50,23 @@ class ReactResponseBridge
 
     /**
      * Sends content for the current web response.
-     * @param ReactResponse $response
+     *
+     * @param ReactResponse   $response
      * @param SymfonyResponse $sf_response
      */
     private function sendContent(ReactResponse $response, SymfonyResponse $sf_response)
     {
-        $response->end($sf_response->getContent());
+        if ($sf_response instanceof StreamedResponse
+            || $sf_response instanceof BinaryFileResponse
+        ) {
+            ob_start(function ($buffer) use ($response) {
+                $response->write($buffer);
+            });
+            $sf_response->sendContent();
+            ob_get_clean();
+            $response->end();
+        } else {
+            $response->end($sf_response->getContent());
+        }
     }
 }
