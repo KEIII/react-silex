@@ -9,11 +9,11 @@
         }
     ],
     "require": {
-        "react/http": "*",
-        "react/socket-client": "*",
-        "react/event-loop": "*",
-        "silex/silex": "*",
-        "symfony/console": "*"
+        "react/http": "^0.4",
+        "react/socket-client": "^0.5",
+        "react/event-loop": "^0.4",
+        "silex/silex": "^2.0",
+        "symfony/console": "^3.1"
     },
     "require-dev": {
         "raveren/kint": "^1.0"
